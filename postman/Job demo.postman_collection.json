@@ -1,0 +1,353 @@
+{
+	"info": {
+		"_postman_id": "5d09934d-d604-4ebc-8f36-a5f3bfaddbfc",
+		"name": "Job demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c3d804ad-eae0-4e35-b274-4d44f5a124ba",
+								"exec": [
+									"const tokens = JSON.parse(responseBody)",
+									"const accessToken = tokens.access_token;",
+									"const refreshToken = tokens.refresh_token;",
+									"const userId = tokens.user_id;",
+									"postman.setEnvironmentVariable(\"user-jwt-token\",`Bearer ${accessToken}`);",
+									"postman.setEnvironmentVariable(\"user-jwt-refresh-token\",`Bearer ${refreshToken}`);",
+									"postman.setEnvironmentVariable(\"last-user-id\", userId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "client",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "my-secret-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "jobstack",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "user@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "userPass",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "my-secret-key",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "scope",
+									"value": "openid role_list",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{proto}}://{{baseUrl}}/oauth/token",
+							"protocol": "{{proto}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "job",
+			"item": [
+				{
+					"name": "Get Jobs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8ab15eec-c6e5-47b2-b57c-7933c6b2efa2",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{user-jwt-token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{proto}}://{{baseUrl}}/job",
+							"protocol": "{{proto}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"job"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dcc8545b-7a59-486f-ad4c-8a600af36b01",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{user-jwt-token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"jobName\": \"First job\",\n    \"description\": \"Description\",\n    \"location\": \"location\"\n}"
+						},
+						"url": {
+							"raw": "{{proto}}://{{baseUrl}}/job",
+							"protocol": "{{proto}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"job"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8de279b5-b339-48c4-83d4-b145a65e0a34",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{user-jwt-token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jon Bonjovi\",\n    \"experience\": 2\n}"
+						},
+						"url": {
+							"raw": "{{proto}}://{{baseUrl}}/candidate",
+							"protocol": "{{proto}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"candidate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b954ddab-cd16-4c7f-9799-f3d307d40477",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{user-jwt-token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jon Bonjovi\",\n    \"experience\": 2\n}"
+						},
+						"url": {
+							"raw": "{{proto}}://{{baseUrl}}/job/1/candidate/1",
+							"protocol": "{{proto}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"job",
+								"1",
+								"candidate",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Job Candidates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "15785c67-5a0e-4a7f-8339-3534907b08dd",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{user-jwt-token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jon Bonjovi\",\n    \"experience\": 2\n}"
+						},
+						"url": {
+							"raw": "{{proto}}://{{baseUrl}}/job/1/candidate",
+							"protocol": "{{proto}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"job",
+								"1",
+								"candidate"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
