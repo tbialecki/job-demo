@@ -1,0 +1,56 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+group = 'com.jobdemo'
+version = '0.0.1'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    mapstructVersion = "1.4.1.Final"
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.liquibase:liquibase-core'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'com.h2database:h2'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    // validation
+    implementation 'javax.validation:validation-api:2.0.0.Final'
+    implementation 'org.hibernate.validator:hibernate-validator:6.0.2.Final'
+
+    // mapstruct
+    compileOnly("org.mapstruct:mapstruct:${mapstructVersion}")
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-jwt:1.1.1.RELEASE'
+    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.3.5.RELEASE'
+}
+
+compileJava {
+    options.annotationProcessorPath = configurations.annotationProcessor
+
+    // if you need to configure mapstruct component model
+    options.compilerArgs << "-Amapstruct.defaultComponentModel=spring"
+}
+
+test {
+    useJUnitPlatform()
+}
