@@ -33,8 +33,9 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator:6.0.2.Final'
 
     // mapstruct
-    compileOnly("org.mapstruct:mapstruct:${mapstructVersion}")
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     // security
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
